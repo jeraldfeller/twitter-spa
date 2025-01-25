@@ -1,9 +1,9 @@
 const axios = require('axios');
 
 export default async function handler(req, res) {
-  const { endpoint, username, tweetId } = req.query; // Extract query parameters
+  const { endpoint, username, tweetId } = req.query;
 
-  // Build the URL based on the endpoint and parameters
+  // Build the URL for the Twitter API
   const url =
     endpoint === 'tweets'
       ? `https://api.twitter.com/2/tweets?username=${username}`
@@ -13,17 +13,20 @@ export default async function handler(req, res) {
     // Make the API request to Twitter
     const response = await axios.get(url, {
       headers: {
-        Authorization: `Bearer ${process.env.REACT_APP_TWITTER_BEARER_TOKEN}`, // Use the Bearer Token from environment variables
+        Authorization: `Bearer ${process.env.REACT_APP_TWITTER_BEARER_TOKEN}`,
       },
     });
 
-    // Send the data back to the client
+    // Send the successful response back to the client
     res.status(200).json(response.data);
   } catch (error) {
-    // Handle errors and send error responses
+    // Log the error for debugging
+    console.error('Twitter API error:', error.response?.data || error.message);
+
+    // Send a detailed error response
     res.status(error.response?.status || 500).json({
-      error: error.message || 'An error occurred',
-      endpoint: endpoint, // Add endpoint in the response
+      code: error.response?.status || 500,
+      message: error.response?.data || error.message,
     });
   }
 }
