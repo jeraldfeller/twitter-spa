@@ -55,14 +55,12 @@ const App = () => {
 
   const fetchTweets = async () => {
     try {
-      const response = await axios.get(
-        `https://api.twitter.com/2/tweets?username=${username}`, // Replace with the actual API endpoint
-        {
-          headers: {
-            Authorization: `Bearer ${process.env.REACT_APP_TWITTER_BEARER_TOKEN}`,
-          },
-        }
-      );
+      const response = await axios.get(`/api/twitter`, {
+        params: {
+          endpoint: 'tweets',
+          username, username
+        },
+      });
       setTweets(response.data.data);
     } catch (error) {
       console.error('Error fetching tweets:', error);
@@ -71,19 +69,18 @@ const App = () => {
 
   const fetchReplies = async (tweetId) => {
     try {
-      const response = await axios.get(
-        `https://api.twitter.com/2/tweets/${tweetId}/replies`, // Replace with the actual API endpoint
-        {
-          headers: {
-            Authorization: `Bearer ${process.env.REACT_APP_TWITTER_BEARER_TOKEN}`,
-          },
-        }
-      );
+      const response = await axios.get(`/api/twitter`, {
+        params: {
+          endpoint: 'replies',
+          tweetId, // Pass the tweet ID as a query parameter
+        },
+      });
       setReplies(response.data.data);
     } catch (error) {
       console.error('Error fetching replies:', error);
     }
   };
+  
 
   if (!isAuthenticated) {
     // Render a password-protected login screen
