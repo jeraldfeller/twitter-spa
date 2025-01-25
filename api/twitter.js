@@ -23,6 +23,7 @@ export default async function handler(req, res) {
     // Handle errors and send error responses
     res.status(error.response?.status || 500).json({
       error: error.message || 'An error occurred',
+      endpoint: endpoint, // Add endpoint in the response
     });
   }
 }
