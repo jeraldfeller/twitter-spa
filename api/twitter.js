@@ -10,15 +10,22 @@ export default async function handler(req, res) {
       : `https://api.twitter.com/2/tweets/${tweetId}/replies`;
 
   try {
+    res.status(200).json(
+       {
+        url: url,
+        username: username,
+        token: REACT_APP_TWITTER_BEARER_TOKEN
+       }
+    )
     // Make the API request to Twitter
-    const response = await axios.get(url, {
-      headers: {
-        Authorization: `Bearer ${process.env.REACT_APP_TWITTER_BEARER_TOKEN}`,
-      },
-    });
+    // const response = await axios.get(url, {
+    //   headers: {
+    //     Authorization: `Bearer ${process.env.REACT_APP_TWITTER_BEARER_TOKEN}`,
+    //   },
+    // });
 
-    // Send the successful response back to the client
-    res.status(200).json(response.data);
+    // // Send the successful response back to the client
+    // res.status(200).json(response.data);
   } catch (error) {
     // Log the error for debugging
     console.error('Twitter API error:', error.response?.data || error.message);
