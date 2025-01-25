@@ -13,7 +13,7 @@ export default async function handler(req, res) {
     // Make the API request to Twitter
     const response = await axios.get(url, {
       headers: {
-        Authorization: `Bearer ${process.env.TWITTER_BEARER_TOKEN}`, // Use the Bearer Token from environment variables
+        Authorization: `Bearer ${process.env.REACT_APP_TWITTER_BEARER_TOKEN}`, // Use the Bearer Token from environment variables
       },
     });
 
